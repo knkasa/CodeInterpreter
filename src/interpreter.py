@@ -1,4 +1,4 @@
-from typing import List
+from typing import Tuple
 import subprocess
 import sys
 from loguru import logger
@@ -15,7 +15,7 @@ class program_execution_class:
             user_prompt, 
             )
         
-    def auto_fix_and_execute(self, user_prompt:str, max_attempts=10) -> List[bool, str, str, int]:
+    def auto_fix_and_execute(self, user_prompt:str, max_attempts=10) -> Tuple[bool, str, str, int]:
         """
             Automatically generate, execute, and fix code until it succeeds.
 
@@ -77,7 +77,7 @@ class program_execution_class:
         
         return code, requirements
 
-    def save_and_execute_script(self, code:str, requirements:str) -> List[bool, str, str]:
+    def save_and_execute_script(self, code:str, requirements:str) -> Tuple[bool, str, str]:
         """
             Save the generated code to a file and execute it.
 
@@ -218,3 +218,4 @@ numpy
 </requirements>
 
 '''
+
