@@ -11,7 +11,4 @@ RUN pip install --upgrade pip \
 
 COPY . .
 
-RUN useradd -m appuser
-USER appuser
-
 CMD ["python", "main.py"]
