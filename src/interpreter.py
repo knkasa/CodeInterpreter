@@ -5,106 +5,125 @@ from loguru import logger
 from bs4 import BeautifulSoup
 from src.creator import Creator
 
-class program_execution_class:
-    __slots__ = ['creator_engine']
-    def __init__(self, user_prompt:str):
-        logger.info('Initializing program_execution_class()')
-        self.creator_engine = Creator()
-                
-        success, final_code, final_requirements, attempts_used = self.auto_fix_and_execute(
-            user_prompt, 
-            )
-        
-    def auto_fix_and_execute(self, user_prompt:str, max_attempts=10) -> Tuple[bool, str, str, int]:
-        """
-            Automatically generate, execute, and fix code until it succeeds.
 
-            Args:
-                user_prompt(str): User prompt.
-                max_attempts(int): Number of retries (default=5)
-            Returns:
-                (bool): Boolean that tells whether it fails or not.
-                (str): Generated python code.
-                (str): Required libraries.
-                (int): Number of attempts.
+class program_execution_class:
+    __slots__ = ["creator_engine"]
+
+    def __init__(self, user_prompt: str):
+        logger.info("Initializing program_execution_class()")
+        self.creator_engine = Creator()
+
+        success, final_code, final_requirements, attempts_used = (
+            self.auto_fix_and_execute(
+                user_prompt,
+            )
+        )
+
+    def auto_fix_and_execute(
+        self, user_prompt: str, max_attempts=10
+    ) -> Tuple[bool, str, str, int]:
+        """
+        Automatically generate, execute, and fix code until it succeeds.
+
+        Args:
+            user_prompt(str): User prompt.
+            max_attempts(int): Number of retries (default=5)
+        Returns:
+            (bool): Boolean that tells whether it fails or not.
+            (str): Generated python code.
+            (str): Required libraries.
+            (int): Number of attempts.
         """
         # Initial prompt.
-        prompt = f'''{user_prompt} \n {self.python_template_func()}'''
-        
+        prompt = f"""{user_prompt} \n {self.python_template_func()}"""
+
         # Try executing in loops
         for attempt in range(1, max_attempts + 1):
             logger.info(f"Attempt {attempt}/{max_attempts}")
             logger.info("-" * 40)
-            
+
             try:
                 response = self.creator_engine.llm_code_creator(prompt)
                 logger.info(response)
-                
+
                 python_code, requirements = self.extract_python_code(response)
-                success, stdout, stderr = self.save_and_execute_script(python_code, requirements)
-                
+                success, stdout, stderr = self.save_and_execute_script(
+                    python_code, requirements
+                )
+
                 if success:
                     return True, python_code, requirements, attempt
-                
+
                 # If failed, get another prompt, keep trying.
                 if attempt < max_attempts:
                     logger.info(f"Preparing to fix errors for attempt {attempt + 1}...")
                     error_info = f"STDOUT: {stdout}\nSTDERR: {stderr}"
                     prompt = self.create_fix_prompt(
-                        prompt, 
-                        python_code, 
-                        error_info, 
-                        )
-                
+                        prompt,
+                        python_code,
+                        error_info,
+                    )
+
             except Exception as e:
                 logger.error(f"Unexpected error in attempt {attempt}: {e}")
                 if attempt == max_attempts:
                     break
                 continue
-        
-        logger.warning(f"FAILED: Could not generate working code after {max_attempts} attempts")
+
+        logger.warning(
+            f"FAILED: Could not generate working code after {max_attempts} attempts"
+        )
         return False, None, None, max_attempts
 
-    def extract_python_code(self, text:str):
+    def extract_python_code(self, text: str):
         """Extract Python code from Claude's response."""
 
-        soup = BeautifulSoup(text, 'html.parser')
-        code_tag = soup.find('python_code')
-        requirements_tag = soup.find('requirements')
-        
+        soup = BeautifulSoup(text, "html.parser")
+        code_tag = soup.find("python_code")
+        requirements_tag = soup.find("requirements")
+
         code = code_tag.string
         requirements = requirements_tag.string
-        
+
         return code, requirements
 
-    def save_and_execute_script(self, code:str, requirements:str) -> Tuple[bool, str, str]:
+    def save_and_execute_script(
+        self, code: str, requirements: str
+    ) -> Tuple[bool, str, str]:
         """
-            Save the generated code to a file and execute it.
+        Save the generated code to a file and execute it.
 
-            Args:
-                code(str): Code.
-                requirements(str): Required libraries.
-            Returns:
-                (bool): Boolean that tells whether it fails or not.
-                (str): STDOUT.
-                (str): STDERROR.
+        Args:
+            code(str): Code.
+            requirements(str): Required libraries.
+        Returns:
+            (bool): Boolean that tells whether it fails or not.
+            (str): STDOUT.
+            (str): STDERROR.
         """
         try:
             python_file_name = "generated_script.py"
             requirement_file_name = "requirements.txt"
-            
-            with open(python_file_name, 'w') as f:
+
+            with open(python_file_name, "w") as f:
                 f.write(code)
             logger.info(f"Script saved as: {python_file_name}")
 
-            with open(requirement_file_name, 'w') as f:
+            with open(requirement_file_name, "w") as f:
                 f.write(requirements)
             logger.info(f"Requirements saved as: {requirement_file_name}")
-            
+
             if requirements.strip():
                 logger.info("Installing necessary libraries...")
                 subprocess.check_call(
-                    [sys.executable, "-m", "pip", "install", "-r", requirement_file_name]
+                    [
+                        sys.executable,
+                        "-m",
+                        "pip",
+                        "install",
+                        "-r",
+                        requirement_file_name,
+                    ]
                 )
 
             logger.info("Generated script executing...")
@@ -112,8 +131,8 @@ class program_execution_class:
                 [sys.executable, python_file_name],
                 capture_output=True,
                 text=True,
-                timeout=300
-                )
+                timeout=300,
+            )
 
             if result.stdout:
                 logger.info("Script Output:")
@@ -218,4 +237,3 @@ numpy
 </requirements>
 
 '''
-
