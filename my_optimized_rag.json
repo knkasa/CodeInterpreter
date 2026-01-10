@@ -1,0 +1,41 @@
+{
+  "generate_answer.predict": {
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "question": "Table name:interaction",
+        "answer": "\nTable2 columns\nuserid: User ID. Integer\ntimestamp: time when user took action.\nitemid:Item ID user interacted with.\ninteractiontype:Action type user took. Values:view, add-to-cart, favorite, click, purchase.\nfeature1: User feature1. float\nfeature2: User feature2. float\npurchase:User purchase flag. 1 or 0.\n"
+      },
+      {
+        "question": "Table name:users",
+        "answer": "\nTable1 columns\nuserid:User ID. Integer\nage:User age. \ngender:User gender. Male, Female, or Non-binary\n"
+      }
+    ],
+    "signature": {
+      "instructions": "Answer questions with short factual answers.",
+      "fields": [
+        {
+          "prefix": "Question:",
+          "description": "${question}"
+        },
+        {
+          "prefix": "Reasoning: Let's think step by step in order to",
+          "description": "${reasoning}"
+        },
+        {
+          "prefix": "Answer:",
+          "description": "${answer}"
+        }
+      ]
+    },
+    "lm": null
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.10",
+      "dspy": "3.0.4",
+      "cloudpickle": "3.0"
+    }
+  }
+}

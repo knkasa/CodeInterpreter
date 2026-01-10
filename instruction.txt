@@ -1,0 +1,97 @@
+1. Create python file that can accept user prompt and run script.
+2. Go to AWS, create lambda function. Make sure to attach ECS(go to configuration/permission->click the role name)
+   Provide security group & subnet as environment variable. (Note security group & subnet should be in same VPC)
+3. Go to github, upload dockerfile, executor.py, requirements.txt
+4. Upload image to ECR by setting up codepipeline. Make sure to check "Full clone".
+5. Setup ECS fargate task definition. (under Task role)Add bedrock & redshift permission & s3 policy.
+   Add environment variable defined in lambda function
+6. Run ECS to check if ok
+7. Create Redshift DB. (user=admin_user) 
+  Load CSV(you need to set s3 for backup. click gear/acount settings from lower left, add s3 uri)
+  If you need to test from local, under Workgroup, "Publicly accessible" should be Turned on.
+  Then, go to security group, click Inbound rules, add Type=CustomTCP, Port=5439, Source=0.0.0.0/0(or your IP)
+  (make sure to delete after testing)
+8. Setup Knowledge base in Bedrock, sync the Redshift DB.(see graph_rag/redshift_instruction.txt)
+9. In Bedrock, create agent, setup knowledge base.
+  Add instruction like "Answer user questions by searching the connected knowledge base and returning relevant results"
+  Once saved(you must save first), add knowledge base.
+  Add Action group as you need.
+  Assign alias name, which will be used when invoking agent.
+10. Setup API gateway(HTTP API recommended).
+   Choose Open or IAM for Security. If you choose Open, setup WAF to only allow specific IP.
+
+====== Connecting to Redshift from local ==============
+conn = redshift_connector.connect(
+    host='llm-executor-db.{os.getenv('AWS_ACCOUNT_NUM')}.us-east-1.redshift-serverless.amazonaws.com',
+    database='dev',
+    user=os.getenv('REDSHIFT_USER'),
+    password=os.getenv('REDSHIFT_PASSWORD'),
+    port=5439
+    )
+
+sql = """
+...
+"""
+
+df = pd.read_sql(sql, conn)
+conn.close()
+
+
+===== AWS Lambda ===================
+import json
+import boto3
+import os
+
+def lambda_handler(event, context):
+    try:
+        body = json.loads(event['body'])
+        prompt = body.get('prompt')
+
+        if not prompt:
+            return {"statusCode": 400, "body": "prompt is required"}
+
+        CLUSTER_NAME = 'ecs-cluster-llm-executor'
+        TASK_DEFINITION = 'ecs-task-llm-executor'
+        SUBNETS = os.environ['SUBNETS'].split(',')
+        SECURITY_GROUPS = os.environ['SECURITY_GROUPS'].split(',')
+        CONTAINER_NAME = 'ecs-ecr-llm-executor'
+
+        ecs = boto3.client('ecs')
+
+        response = ecs.run_task(
+            cluster=CLUSTER_NAME,
+            taskDefinition=TASK_DEFINITION,
+            launchType='FARGATE',
+            networkConfiguration={
+                'awsvpcConfiguration': {
+                    'subnets': SUBNETS,
+                    'securityGroups': SECURITY_GROUPS,
+                    'assignPublicIp': 'ENABLED'
+                }
+            },
+            overrides={
+                'containerOverrides': [
+                    {
+                        'name': CONTAINER_NAME,
+                        'environment': [{'name': 'USER_PROMPT','value': prompt}]
+                    }
+                ]
+            },
+            count=1,
+            platformVersion='LATEST'
+            )
+
+        if response.get("failures"):
+            return {"statusCode": 500, "body": json.dumps(response["failures"])}
+        
+        return {
+            'statusCode': 200,
+            'body': json.dumps('Lambda initiated...')
+            }
+
+    except Exception as e:
+        print(e)
+        return {
+            'statusCode': 500,
+            'body': json.dumps('Internal Server Error')
+            }
