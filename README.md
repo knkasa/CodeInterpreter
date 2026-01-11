@@ -13,7 +13,7 @@
 - **API Gateway**経由でユーザープロンプトを受信
 - **AWS Lambda**からコンテナを起動
 - **Amazon Bedrock**のClaude Sonnet 4.0を使用して**Amazon Redshift**データベースのテーブルに対するクエリと推論を実行し、Pythonコードを生成
-- エージェントが生成したPythonコードを**ECS Fargate**上で実行
+- 生成したPythonコードを**ECS Fargate**上で実行
 - エージェントが生成した出力は**S3**に保存(`/results`ディレクトリに成果物の例を格納)
 
 エージェントはデータベースのスキーマを[**DSPy**](https://dspy.ai/)を通じて理解、以下のような事が可能:
