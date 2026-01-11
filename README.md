@@ -31,10 +31,10 @@ GitHubリポジトリは**CodePipeline**を経由しDockerイメージを自動�
 
 [**Amazon Redshift**](https://aws.amazon.com/jp/pm/redshift/?trk=73ffb485-6fc0-4153-b6aa-d1f3aa61a4fa&sc_channel=ps&trk=73ffb485-6fc0-4153-b6aa-d1f3aa61a4fa&sc_channel=ps&ef_id=CjwKCAiAjojLBhAlEiwAcjhrDlwYuXmP1TDhhMJOPnDsi1X7EDxgL8EQSUo4JIxo5GU355Ud5DUASxoCy1gQAvD_BwE:G:s&s_kwcid=AL!4422!3!785447301045!e!!g!!aws%20redshift!23296348016!187878269006&gad_campaignid=23296348016&gbraid=0AAAAADjHtp-UXAzkuYJDNpyj3o8Hfwqr1&gclid=CjwKCAiAjojLBhAlEiwAcjhrDlwYuXmP1TDhhMJOPnDsi1X7EDxgL8EQSUo4JIxo5GU355Ud5DUASxoCy1gQAvD_BwE)データベースに以下のテーブルを格納 (`/input`ディレクトリに同等のCSVを格納):
 
-- **users**テーブル
-- **interactions**テーブル
+- **users**
+- **interactions**
 
-**LLMエージェントはこれらのスキーマを認識しており**、直接推論とクエリ実行を行うことができます
+**LLMエージェントはこれらのスキーマを認識**、直接推論とクエリを実行可能
 
 ---
 
