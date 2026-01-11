@@ -50,8 +50,6 @@ flowchart TD
     ECR -->|Pull Docker Image| ECS
     ECS --> LLM[🤖 Agent / Program Execution <br/>Code Interpreter]
     
-    LLM -->|Fetch credentials| SM[🔐 AWS Secrets Manager<br/>DB Credentials]
-    SM -.->|Return credentials| LLM
     LLM -->|Query data| Redshift[🗃️ Amazon Redshift<br/>users & interactions tables]
     Redshift -.->|Return data| LLM
     
@@ -64,8 +62,6 @@ flowchart TD
     style APIGW fill:#fff4e1
     style Lambda fill:#ffe1f5
     style ECS fill:#e1ffe1
-    style LLM fill:#f5e1ff
-    style SM fill:#ffe8e1
     style Redshift fill:#e8e1ff
     style S3 fill:#ffe1e1
 ```
@@ -73,7 +69,7 @@ flowchart TD
 ---
 
 ## 使い方:
-以下のコードでAPIを送信するとAWS上でプログラムが起動
+以下のコード（Python例）でAPIを送信するとAWS上でプログラムが起動
 
 ```python
 api_gateway_url = "https://<enter-API-here>/default/lambda_python_executor"
