@@ -1,4 +1,4 @@
-# AWS ECSを使用したCode Interpreter
+# AWSを使用したCode Interpreter
 
 **AWS上に構築されたLLMエージェントによるPython実行プログラム**
 
