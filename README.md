@@ -1,6 +1,6 @@
 # AWS ECSを使用したCode Interpreter
 
-**AWS**上に構築された**LLMベースのPython実行プログラム*
+**AWS**上に構築された**LLMベースのPython実行プログラム
 
 ユーザーのプロンプトをAPIエンドポイントにて送信、プログラムはAWSコンテナ内で実行
 
