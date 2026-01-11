@@ -11,7 +11,7 @@
 主なフロー:
 
 - **API Gateway**経由でユーザープロンプトを受信
-- **AWS Lambda**で実行をオーケストレーション
+- **AWS Lambda**からコンテナを起動
 - **Amazon Bedrock**のClaude Sonnet 4.0を使用して**Amazon Redshift**データベースのテーブルに対するクエリと推論を実行し、Pythonコードを生成
 - エージェントが生成したPythonコードを**ECS Fargate**上で実行
 - エージェントが生成した出力は**S3**に保存(/resultsディレクトリを参照)
