@@ -14,7 +14,7 @@
 - **AWS Lambda**からコンテナを起動
 - [**Amazon Bedrock**](https://aws.amazon.com/jp/bedrock/?trk=1f887566-8561-4bf2-a30b-f383e290b094&sc_channel=ps&trk=1f887566-8561-4bf2-a30b-f383e290b094&sc_channel=ps&ef_id=CjwKCAiAjojLBhAlEiwAcjhrDgwdRX69uFpTJvwTIiBvmXyNUOGi9aVY6zYv0bqY8PpAVkOlJDNNRxoCPzgQAvD_BwE:G:s&s_kwcid=AL!4422!3!785447157291!e!!g!!aws%20bedrock!23296345364!189486864175&gad_campaignid=23296345364&gbraid=0AAAAADjHtp-XNqIWY7WgJItBjZL5RALbT&gclid=CjwKCAiAjojLBhAlEiwAcjhrDgwdRX69uFpTJvwTIiBvmXyNUOGi9aVY6zYv0bqY8PpAVkOlJDNNRxoCPzgQAvD_BwE)のClaude Sonnet 4.0を使用して**Amazon Redshift**データベースのテーブルに対するクエリと推論を実行し、Pythonコードを生成
 - 生成したPythonコードを[**ECS Fargate**](https://aws.amazon.com/jp/ecs/)上で実行
-- エージェントが生成した成果物を**S3**ストレージにて保存(`/results`ディレクトリに成果物の例を格納)
+- エージェントが生成した成果物を**S3**ストレージに保存(`/results`ディレクトリに成果物の例を格納)
 
 エージェントはデータベースのスキーマを[**DSPy**](https://dspy.ai/)を通じて理解、以下のような事が実装可能:
 
