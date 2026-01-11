@@ -1,0 +1,6 @@
+input/
+results/
+**/*.pyc
+__pycache__/
+.git
+.gitignore
