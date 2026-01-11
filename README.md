@@ -44,7 +44,7 @@ flowchart TD
     GitHub[📁 GitHub Repository] -->|Code Push| CodePipeline[🔄 AWS CodePipeline<br/>CI/CD Automation]
     CodePipeline -->|Build & Push| ECR[📦 Amazon ECR<br/>Docker Registry]
     
-    Client([👤 Client]) -->|POST /prompt| APIGW[🌐 API Gateway<br/>HTTP API]
+    Client([👤 ユーザー]) -->|POST /prompt| APIGW[🌐 API Gateway<br/>HTTP API]
     APIGW --> Lambda[⚡ AWS Lambda<br/>Request Handler]
     Lambda --> ECS[📦 ECS Fargate Task <br/>Execution Environment]
     ECR -->|Pull Docker Image| ECS
