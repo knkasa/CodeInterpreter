@@ -41,7 +41,7 @@ GitHubリポジトリは**CodePipeline**を経由しDockerイメージを自動�
 ## アーキテクチャ
 ```mermaid
 flowchart TD
-    GitHub[📁 GitHub Repository] -->|Code Push | Merge| CodePipeline[🔄 AWS CodePipeline<br/>CI/CD Automation]
+    GitHub[📁 GitHub Repository] -->|Code Push, Merge| CodePipeline[🔄 AWS CodePipeline<br/>CI/CD Automation]
     CodePipeline -->|Build & Push| ECR[📦 Amazon ECR<br/>Docker Registry]
     
     Client([👤 ユーザー]) -->|POST /prompt| APIGW[🌐 API Gateway<br/>HTTP API]
