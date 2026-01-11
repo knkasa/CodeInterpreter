@@ -14,7 +14,7 @@
 - **AWS Lambda**からコンテナを起動
 - **Amazon Bedrock**のClaude Sonnet 4.0を使用して**Amazon Redshift**データベースのテーブルに対するクエリと推論を実行し、Pythonコードを生成
 - エージェントが生成したPythonコードを**ECS Fargate**上で実行
-- エージェントが生成した出力は**S3**に保存(/resultsディレクトリを参照)
+- エージェントが生成した出力は**S3**に保存(`/results`ディレクトリを参照)
 
 エージェントはデータベースのスキーマを[**DSPy**](https://dspy.ai/)を通じて理解、以下のような事が可能:
 
@@ -29,7 +29,7 @@ GitHubリポジトリは**CodePipeline**にてDockerイメージを自動作成�
 
 ## データソース
 
-**Amazon Redshift**に以下2つのテーブルを格納(/inputディレクトリに同等のCSVを格納):
+**Amazon Redshift**に以下2つのテーブルを格納(`/input`ディレクトリに同等のCSVを格納):
 
 - **users**テーブル
 - **interactions**テーブル
