@@ -94,9 +94,7 @@ flowchart TD
 ```python
 api_gateway_url = "https://<enter-API-here>/default/lambda_python_executor"
 
-prompt = '''
-データベースのusersテーブルとinteractionテーブルを使って、purchaseカラムを予測する機械学習モデルを構築ください
-'''
+prompt = "データベースのusersテーブルとinteractionテーブルを使って、purchaseカラムを予測する機械学習モデルを構築ください"
 
 payload = {"prompt": prompt}
 headers = {"Content-Type": "application/json"}
