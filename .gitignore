@@ -18,3 +18,6 @@ ENV/
 htmlcov/
 dist/
 build/
+
+input/
+results/
