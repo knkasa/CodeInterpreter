@@ -95,8 +95,8 @@ flowchart TD
 api_gateway_url = "https://<enter-API-here>/default/lambda_python_executor"
 
 prompt = '''
-    'interaction'テーブルから機械学習モデルを作成してください。'purchase'列をターゲット変数として使用してください。
-    '''
+データベースのusersテーブルとinteractionテーブルを使って、purchaseカラムを予測する機械学習モデルを構築ください
+'''
 
 payload = {"prompt": prompt}
 headers = {"Content-Type": "application/json"}
