@@ -1,0 +1,31 @@
+Logistic Regression Model Evaluation
+==================================================
+
+AUC Score: 0.8895
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.93      0.96      0.94       772
+           1       0.83      0.75      0.79       228
+
+    accuracy                           0.91      1000
+   macro avg       0.88      0.85      0.87      1000
+weighted avg       0.91      0.91      0.91      1000
+
+
+Feature Importance:
+age: 0.0166
+feature1: 0.0566
+feature2: 0.0204
+hour: 0.0102
+day_of_week: 0.0278
+itemid_encoded: 0.0023
+gender_male: 0.0401
+gender_female: 0.0660
+gender_nonbinary: 0.0256
+interaction_view: 0.5477
+interaction_add-to-cart: 0.3649
+interaction_favorite: 0.4775
+interaction_click: 0.1679
+interaction_purchase: 1.2241
