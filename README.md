@@ -10,7 +10,6 @@
 ユーザーはプロンプトを送信するだけで:
 - 複雑なデータ分析とレポートの自動生成（成果物はAWSのストレージ（**s3**）に格納）
 - 機械学習モデルの構築
-- 必要なライブラリを随時インストールしプログラムを実行
 
 ### 🧠 スキーマ認識エージェント
 エージェントは**データベーススキーマを理解**しており、以下が可能:
@@ -35,7 +34,7 @@
 - **API Gateway**経由でユーザープロンプトを受信
 - **AWS Lambda**からコンテナを起動
 - [**Amazon Bedrock**](https://aws.amazon.com/jp/bedrock/?trk=1f887566-8561-4bf2-a30b-f383e290b094&sc_channel=ps&trk=1f887566-8561-4bf2-a30b-f383e290b094&sc_channel=ps&ef_id=CjwKCAiAjojLBhAlEiwAcjhrDgwdRX69uFpTJvwTIiBvmXyNUOGi9aVY6zYv0bqY8PpAVkOlJDNNRxoCPzgQAvD_BwE:G:s&s_kwcid=AL!4422!3!785447157291!e!!g!!aws%20bedrock!23296345364!189486864175&gad_campaignid=23296345364&gbraid=0AAAAADjHtp-XNqIWY7WgJItBjZL5RALbT&gclid=CjwKCAiAjojLBhAlEiwAcjhrDgwdRX69uFpTJvwTIiBvmXyNUOGi9aVY6zYv0bqY8PpAVkOlJDNNRxoCPzgQAvD_BwE)のClaude Sonnet 4.0を使用して**Amazon Redshift**データベースのテーブルに対する推論を実行し、Pythonコードを生成
-- 生成したPythonコードを[**ECS Fargate**](https://aws.amazon.com/jp/ecs/)上で実行
+- 生成したPythonコードを[**ECS Fargate**](https://aws.amazon.com/jp/ecs/)上で実行（必要なライブラリは随時インストールされる）
 - エージェントが生成した成果物を**S3**ストレージに保存(`/results`ディレクトリに成果物の例を格納)
 
 ### DSPyでのエージェント
